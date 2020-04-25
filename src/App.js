@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Ripples from 'react-ripples';
 import { useTrail, animated } from 'react-spring';
+import { Transition } from 'react-spring/renderprops';
 import './App.css';
 import { MovieSetItem } from './components/MovieSetItem';
 import { Tag } from './libs/Tag';
@@ -33,21 +34,26 @@ const movies = [
   },
 ];
 const selected = [24, 25, 26, 62, 63, 38, 34];
-const initialSeats = {};
-for (let i = 0; i < 64; i++) {
-  initialSeats[i] = {
-    id: i,
-    status: selected.includes(i) ? 'selected' : 'available',
-  };
-}
-const config = { mass: 5, tension: 2000, friction: 200 };
+const initialSeats = () => {
+  const res = {};
+  for (let i = 0; i < 64; i++) {
+    res[i] = {
+      id: i,
+      status: selected.includes(i) ? 'selected' : 'available',
+    };
+  }
+  return res;
+};
+
+const config = { mass: 6, tension: 2000, friction: 300 };
 
 function App() {
   const [isActive, setActive] = useState(false);
   const [toggle, set] = useState(false);
   const [seatTotal, setSeatTotal] = useState(0);
   const [priceTotal, setPriceTotal] = useState(0);
-  const [seats, setSeats] = useState(initialSeats);
+  const [seats, setSeats] = useState(initialSeats());
+  const [show, setShow] = useState(false);
 
   const trail = useTrail(movies.length, {
     config,
@@ -81,8 +87,17 @@ function App() {
     }
   };
 
-  const gotoDetail = () => {
-    console.log(1);
+  const gotoDetail = (e) => {
+    setTimeout(() => {
+      setShow(true);
+    }, 300);
+  };
+
+  const onClose = () => {
+    setShow(!show);
+    setPriceTotal(0);
+    setSeatTotal(0);
+    setSeats(initialSeats());
   };
 
   return (
@@ -115,50 +130,93 @@ function App() {
                 ...rest,
                 transform: x.interpolate((x) => `translate3d(0,${x}px,0)`),
               }}
-              onClick={gotoDetail}
             >
-              <MovieSetItem movie={movies[index]} />
+              <MovieSetItem onClick={gotoDetail} movie={movies[index]} />
             </animated.div>
           ))}
         </div>
       </div>
-      <div hidden className="MovieDetail">
-        <div className="title">
-          Moonlight
-          <p className="subtitle">18:00 - 20:00</p>
-        </div>
-        <div className="line"></div>
-        <div className="seats">
-          {Object.keys(seats).map((key) => {
-            const seat = seats[key];
-            return (
+      <Transition
+        items={show}
+        from={{ opacity: 0, transform: 'translateY(100%)' }}
+        enter={{ opacity: 1, transform: 'translateY(0)' }}
+        leave={{ opacity: 1, transform: 'translateY(100%)' }}
+      >
+        {(show) =>
+          show &&
+          ((props) => (
+            <div style={props} className="MovieDetail">
               <div
-                onClick={() => handleSelected(key)}
-                className={`seat ${seat.status}`}
-                key={key}
-              />
-            );
-          })}
-        </div>
-        <div className="desc">
-          <div>
-            <div className="seat selected"></div>
-            <p className="seat-desc">Selected</p>
-          </div>
-          <div>
-            <div className="seat available"></div>
-            <p className="seat-desc">Available</p>
-          </div>
-          <div>
-            <div className="seat your"></div>
-            <p className="seat-desc">Your seat</p>
-          </div>
-        </div>
-        <div className="total">
-          <span style={{ fontSize: '16px' }}>{seatTotal} seats</span>
-          <span style={{ fontSize: '24px' }}>${priceTotal.toFixed(2)}</span>
-        </div>
-      </div>
+                style={{
+                  position: 'absolute',
+                  top: 34,
+                  left: 24,
+                  width: 20,
+                  height: 20,
+                  color: '#fff',
+                  fontSize: 24,
+                  cursor: 'pointer',
+                }}
+                onClick={onClose}
+              >
+                <svg
+                  t="1587821013450"
+                  className="icon"
+                  viewBox="0 0 1024 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  p-id="1895"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M395.21518 513.604544l323.135538-312.373427c19.052938-18.416442 19.052938-48.273447 0-66.660212-19.053961-18.416442-49.910737-18.416442-68.964698 0L291.75176 480.290811c-19.052938 18.416442-19.052938 48.273447 0 66.660212l357.633237 345.688183c9.525957 9.207709 22.01234 13.796214 34.497699 13.796214 12.485359 0 24.971741-4.588505 34.466999-13.82896 19.052938-18.416442 19.052938-48.242747 0-66.660212L395.21518 513.604544z"
+                    p-id="1896"
+                    fill="#ffffff"
+                  ></path>
+                </svg>
+              </div>
+              <div className="title">
+                Moonlight
+                <p className="subtitle">18:00 - 20:00</p>
+              </div>
+              <div className="line"></div>
+              <div className="seats">
+                {Object.keys(seats).map((key) => {
+                  const seat = seats[key];
+                  return (
+                    <div
+                      onClick={() => handleSelected(key)}
+                      className={`seat ${seat.status}`}
+                      key={key}
+                    />
+                  );
+                })}
+              </div>
+              <div className="desc">
+                <div>
+                  <div className="seat selected"></div>
+                  <p className="seat-desc">Selected</p>
+                </div>
+                <div>
+                  <div className="seat available"></div>
+                  <p className="seat-desc">Available</p>
+                </div>
+                <div>
+                  <div className="seat your"></div>
+                  <p className="seat-desc">Your seat</p>
+                </div>
+              </div>
+              <div className="total">
+                <span style={{ fontSize: '16px' }}>{seatTotal} seats</span>
+                <span style={{ fontSize: '24px' }}>
+                  ${priceTotal.toFixed(2)}
+                </span>
+              </div>
+            </div>
+          ))
+        }
+      </Transition>
     </div>
   );
 }

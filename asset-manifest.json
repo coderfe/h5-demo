@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/h5-demo/static/css/main.9c49039f.chunk.css",
+    "main.js": "/h5-demo/static/js/main.03ca8e92.chunk.js",
+    "main.js.map": "/h5-demo/static/js/main.03ca8e92.chunk.js.map",
+    "runtime-main.js": "/h5-demo/static/js/runtime-main.258c157b.js",
+    "runtime-main.js.map": "/h5-demo/static/js/runtime-main.258c157b.js.map",
+    "static/js/2.8dbc6f34.chunk.js": "/h5-demo/static/js/2.8dbc6f34.chunk.js",
+    "static/js/2.8dbc6f34.chunk.js.map": "/h5-demo/static/js/2.8dbc6f34.chunk.js.map",
+    "index.html": "/h5-demo/index.html",
+    "precache-manifest.7f6138b7a93c33e0666419f36e25d581.js": "/h5-demo/precache-manifest.7f6138b7a93c33e0666419f36e25d581.js",
+    "service-worker.js": "/h5-demo/service-worker.js",
+    "static/css/main.9c49039f.chunk.css.map": "/h5-demo/static/css/main.9c49039f.chunk.css.map",
+    "static/js/2.8dbc6f34.chunk.js.LICENSE.txt": "/h5-demo/static/js/2.8dbc6f34.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/h5-demo/static/media/moonlight.d52905c4.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.258c157b.js",
+    "static/js/2.8dbc6f34.chunk.js",
+    "static/css/main.9c49039f.chunk.css",
+    "static/js/main.03ca8e92.chunk.js"
+  ]
+}

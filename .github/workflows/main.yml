@@ -27,8 +27,8 @@ jobs:
       
     - name: Git config
       run: |
-        git config set user.name coderfee
-        git config set user.email coderfee@outlook.com
+        git config user.name coderfee
+        git config user.email coderfee@outlook.com
     
     - name: Deploy
       run: npm run deploy

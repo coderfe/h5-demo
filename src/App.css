@@ -14,13 +14,17 @@ html {
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   margin: 0;
   background-image: linear-gradient(135deg, #3b2667 10%, #bc78ec 100%);
   font-family: 'Ubuntu', sans-serif;
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h1,
@@ -31,6 +35,7 @@ h2 {
 .App {
   position: relative;
   width: 390px;
+  min-width: 370px;
   border: 5px solid #333;
   height: 80vh;
   overflow: hidden;
@@ -39,6 +44,12 @@ h2 {
   background-repeat: no-repeat;
   background-position: center;
   box-shadow: 0 0 28px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 414px) {
+  .App {
+    width: 90%;
+  }
 }
 
 .App::after {

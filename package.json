@@ -35,5 +35,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://coderfe.github.io/h5-demo"
+  "homepage": "https://coderfe.github.io/h5-demo",
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
+  }
 }
